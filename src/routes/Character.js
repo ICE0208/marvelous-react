@@ -1,6 +1,10 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  Link,
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 import styled, { keyframes } from "styled-components";
 import Comic from "../Components/Comic";
 import Loading from "../Components/Loading";
@@ -166,14 +170,18 @@ const Detail = () => {
   const { id } = useParams();
   const titleRef = useRef();
   const [isScrolled, setIsScrolled] = useState(false);
+  const history = useHistory();
 
   const getDetail = async () => {
     const data = await fetch(
       `https://marvel-proxy.nomadcoders.workers.dev/v1/public/characters/${id}`
     );
     const json = await data.json();
+
     if (json.code === 200) {
       setData(json.data.results[0]);
+    } else {
+      history.push("/notfound");
     }
   };
 

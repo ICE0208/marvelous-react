@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -26,12 +27,19 @@ const SmallText = styled.div`
   font-size: 30px;
 `;
 
+const GoHome = styled(Link)`
+  color: #f3f3f3;
+  margin-top: 20px;
+  font-size: 22px;
+`;
+
 const NotFound = () => {
   return (
     <Container>
       <ColBox>
         <BigText>404</BigText>
         <SmallText>Can't Find this ID's Character.</SmallText>
+        <GoHome to="/">Go Home</GoHome>
       </ColBox>
     </Container>
   );

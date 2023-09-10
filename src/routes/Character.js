@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Comic from "../Components/Comic";
 import Loading from "../Components/Loading";
 
@@ -42,26 +42,64 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   position: relative;
-  min-height: 2000px;
   padding-bottom: 60px;
 `;
 
-const ImgContainer = styled.div`
-  width: 500px;
-  min-height: 700px;
-  height: 700px;
-  margin-top: 50px;
-  background-color: #ededed2e;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 12px 7px 20px 0px #00000099;
+const XROTATE = 5;
+const imgAnimation = keyframes`
+    0%{
+        transform: rotateX(${XROTATE}deg) rotateY(0deg);
+    }
+    10%{
+      transform: rotateX(${XROTATE}deg) rotateY(30deg);
+    }
+    50%{
+        transform: rotateX(${XROTATE}deg) rotateY(300deg);
+    }
+    100%{
+        transform: rotateX(${XROTATE}deg) rotateY(360deg);
+    }
 `;
-const Img = styled.img.attrs((props) => ({
-  src: props.src,
-}))`
+
+const ImgContainer = styled.div`
+  width: 300px;
+  height: 520px;
+  margin-top: 50px;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+`;
+const ImgBox = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 460px;
+  border: 2px solid white;
+  box-sizing: border-box;
+  border-radius: 20px;
+  animation: ${imgAnimation} 1.5s linear;
+  backface-visibility: ${(props) => (props.backface ? "visible" : "hidden")};
+  z-index: ${(props) => (props.$zIndex ? props.$zIndex : 0)};
+  transform: rotateX(${XROTATE}deg);
+  margin-top: 30px;
+`;
+const ImgTemplate = styled.img`
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  border-radius: 20px;
   object-fit: cover;
+`;
+const Img = styled(ImgTemplate).attrs((props) => ({
+  src: props.$imgurl,
+}))`
+  background-color: #ededed2e;
+`;
+const ImgBack = styled(ImgTemplate).attrs((props) => ({
+  src: props.$imgurl,
+}))`
+  filter: grayscale(95%);
 `;
 
 const Title = styled.h2`
@@ -95,7 +133,7 @@ const Desc = styled.div`
 `;
 
 const More = styled.a.attrs((props) => ({
-  href: props.link,
+  href: props.$link,
   target: "_blank",
 }))`
   width: 260px;
@@ -167,7 +205,19 @@ const Detail = () => {
       <BackImg src={`${data.thumbnail.path}.${data.thumbnail.extension}`} />
       <Container src={`${data.thumbnail.path}.${data.thumbnail.extension}`}>
         <ImgContainer>
-          <Img src={`${data.thumbnail.path}.${data.thumbnail.extension}`} />
+          <ImgBox>
+            <Img
+              $imgurl={`${data.thumbnail.path}.${data.thumbnail.extension}`}
+            />
+          </ImgBox>
+          <ImgBox
+            backface="true"
+            $zIndex={-1}
+          >
+            <ImgBack
+              $imgurl={`${data.thumbnail.path}.${data.thumbnail.extension}`}
+            />
+          </ImgBox>
         </ImgContainer>
         <Title
           ref={titleRef}
@@ -184,7 +234,7 @@ const Detail = () => {
             />
           ))}
         </ComicList>
-        {urls ? <More link={urls[0].url}>{"More ->"}</More> : null}
+        {urls ? <More $link={urls[0].url}>{"More ->"}</More> : null}
       </Container>
     </React.Fragment>
   );

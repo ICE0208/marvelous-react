@@ -26,13 +26,13 @@ const circleAnimation = keyframes`
 `;
 const Text = styled.h1`
   color: #f3f3f3;
-  font-size: 56px;
-  margin-top: 16px;
+  font-size: 80px;
+  margin-top: 30px;
 `;
 
 const Circle = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: 4px solid #f3f3f3;
   animation: ${circleAnimation} 1s linear infinite;

@@ -2,4 +2,4 @@
 
 ## Try it out
 
-[https://jn8myv-3000.csb.app/](https://jn8myv-3000.csb.app/)
+[https://marvelous-react-ice.netlify.app/](https://marvelous-react-ice.netlify.app/)

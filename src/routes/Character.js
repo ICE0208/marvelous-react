@@ -23,9 +23,7 @@ const Back = styled.div`
   z-index: 1;
 `;
 
-const BackImg = styled.img.attrs((props) => ({
-  src: props.src,
-}))`
+const BackImg = styled.img`
   object-fit: cover;
 
   filter: blur(16px);
@@ -95,14 +93,10 @@ const ImgTemplate = styled.img`
   border-radius: 20px;
   object-fit: cover;
 `;
-const Img = styled(ImgTemplate).attrs((props) => ({
-  src: props.$imgurl,
-}))`
+const Img = styled(ImgTemplate)`
   background-color: #ededed2e;
 `;
-const ImgBack = styled(ImgTemplate).attrs((props) => ({
-  src: props.$imgurl,
-}))`
+const ImgBack = styled(ImgTemplate)`
   filter: grayscale(95%);
 `;
 
@@ -214,16 +208,14 @@ const Detail = () => {
       <Container src={`${data.thumbnail.path}.${data.thumbnail.extension}`}>
         <ImgContainer>
           <ImgBox>
-            <Img
-              $imgurl={`${data.thumbnail.path}.${data.thumbnail.extension}`}
-            />
+            <Img src={`${data.thumbnail.path}.${data.thumbnail.extension}`} />
           </ImgBox>
           <ImgBox
             backface="true"
             $zIndex={-1}
           >
             <ImgBack
-              $imgurl={`${data.thumbnail.path}.${data.thumbnail.extension}`}
+              src={`${data.thumbnail.path}.${data.thumbnail.extension}`}
             />
           </ImgBox>
         </ImgContainer>

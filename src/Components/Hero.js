@@ -26,9 +26,7 @@ const ImgContainer = styled.div`
   overflow: hidden;
   flex: 1.6;
 `;
-const Img = styled.img.attrs((props) => ({
-  src: props.src,
-}))`
+const Img = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;

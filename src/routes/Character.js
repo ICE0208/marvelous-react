@@ -1,10 +1,6 @@
 import React, { useRef } from "react";
 import { useEffect, useState } from "react";
-import {
-  Link,
-  useHistory,
-  useParams,
-} from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory, useParams } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import Comic from "../Components/Comic";
 import Loading from "../Components/Loading";

@@ -81,7 +81,7 @@ const ImgBox = styled.div`
   box-sizing: border-box;
   border-radius: 20px;
   animation: ${imgAnimation} 1.5s linear;
-  backface-visibility: ${(props) => (props.backface ? "visible" : "hidden")};
+  backface-visibility: ${(props) => (props.$backface ? "visible" : "hidden")};
   z-index: ${(props) => (props.$zIndex ? props.$zIndex : 0)};
   transform: rotateX(${XROTATE}deg);
   margin-top: 30px;
@@ -211,7 +211,7 @@ const Detail = () => {
             <Img src={`${data.thumbnail.path}.${data.thumbnail.extension}`} />
           </ImgBox>
           <ImgBox
-            backface="true"
+            $backface="true"
             $zIndex={-1}
           >
             <ImgBack

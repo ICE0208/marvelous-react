@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Hero from "../components/Hero";
 import styled from "styled-components";
 import Loading from "../components/Loading";
+import HeroList from "../components/HeroList";
 
 const Container = styled.div`
   display: flex;
@@ -65,25 +65,7 @@ const Home = () => {
         <React.Fragment>
           <HomeTitle>Marvel Characters</HomeTitle>
           <GridContainer>
-            {datas.map((data) => {
-              const pathData = data.thumbnail.path.split("/");
-              if (pathData[pathData.length - 1] === "image_not_available") {
-                return null;
-              }
-              // 이미지가 이상함
-              if (data.name === "Gorilla Man") return null;
-
-              return (
-                <Hero
-                  key={data.id}
-                  data={data}
-                  name={data.name}
-                  id={data.id}
-                  imgURL={`${`${data.thumbnail.path}.${data.thumbnail.extension}`}`}
-                  comicsAvail={data.comics.available}
-                />
-              );
-            })}
+            <HeroList datas={datas} />
           </GridContainer>
         </React.Fragment>
       )}

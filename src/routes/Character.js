@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import Comic from "../Components/Comic";
-import Loading from "../Components/Loading";
+import Comic from "../components/Comic";
+import Loading from "../components/Loading";
 
 const TITLE_FIX_Y = 20;
 

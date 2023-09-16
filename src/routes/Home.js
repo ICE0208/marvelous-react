@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Hero from "../Components/Hero";
+import Hero from "../components/Hero";
 import styled from "styled-components";
-import Loading from "../Components/Loading";
+import Loading from "../components/Loading";
 
 const Container = styled.div`
   display: flex;

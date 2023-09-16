@@ -1,15 +1,9 @@
-import React, { useRef } from "react";
-import { useEffect, useState } from "react";
-import {
-  Link,
-  useHistory,
-  useParams,
-} from "react-router-dom/cjs/react-router-dom.min";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
-import Comic from "../Components/Comic";
-import Loading from "../Components/Loading";
-
-const TITLE_FIX_Y = 20;
+import Comic from "../components/Comic";
+import Loading from "../components/Loading";
+import useSticky from "../hooks/useSticky";
 
 const Back = styled.div`
   width: 20px;
@@ -23,9 +17,7 @@ const Back = styled.div`
   z-index: 1;
 `;
 
-const BackImg = styled.img.attrs((props) => ({
-  src: props.src,
-}))`
+const BackImg = styled.img`
   object-fit: cover;
 
   filter: blur(16px);
@@ -83,7 +75,7 @@ const ImgBox = styled.div`
   box-sizing: border-box;
   border-radius: 20px;
   animation: ${imgAnimation} 1.5s linear;
-  backface-visibility: ${(props) => (props.backface ? "visible" : "hidden")};
+  backface-visibility: ${(props) => (props.$backface ? "visible" : "hidden")};
   z-index: ${(props) => (props.$zIndex ? props.$zIndex : 0)};
   transform: rotateX(${XROTATE}deg);
   margin-top: 30px;
@@ -95,20 +87,15 @@ const ImgTemplate = styled.img`
   border-radius: 20px;
   object-fit: cover;
 `;
-const Img = styled(ImgTemplate).attrs((props) => ({
-  src: props.$imgurl,
-}))`
+const Img = styled(ImgTemplate)`
   background-color: #ededed2e;
 `;
-const ImgBack = styled(ImgTemplate).attrs((props) => ({
-  src: props.$imgurl,
-}))`
+const ImgBack = styled(ImgTemplate)`
   filter: grayscale(95%);
 `;
 
 const Title = styled.h2`
-  margin-top: 48px;
-  margin-bottom: ${TITLE_FIX_Y}px;
+  margin: 48px 0;
   color: white;
   font-size: 46px;
   font-style: italic;
@@ -165,11 +152,15 @@ const ComicList = styled.div`
   align-items: center;
 `;
 
+const TITLE_STICKY_OFFSET = 20;
+
 const Detail = () => {
   const [data, setData] = useState(null);
   const { id } = useParams();
-  const titleRef = useRef();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { stickyRef: titleRef, isSticky: isTitleSticky } = useSticky(
+    false,
+    TITLE_STICKY_OFFSET
+  );
   const history = useHistory();
 
   const getDetail = async () => {
@@ -184,18 +175,6 @@ const Detail = () => {
       history.push("/notfound");
     }
   };
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (!titleRef.current) return;
-      setIsScrolled(
-        titleRef.current.getBoundingClientRect().top <= TITLE_FIX_Y
-      );
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     getDetail();
@@ -214,22 +193,20 @@ const Detail = () => {
       <Container src={`${data.thumbnail.path}.${data.thumbnail.extension}`}>
         <ImgContainer>
           <ImgBox>
-            <Img
-              $imgurl={`${data.thumbnail.path}.${data.thumbnail.extension}`}
-            />
+            <Img src={`${data.thumbnail.path}.${data.thumbnail.extension}`} />
           </ImgBox>
           <ImgBox
-            backface="true"
+            $backface="true"
             $zIndex={-1}
           >
             <ImgBack
-              $imgurl={`${data.thumbnail.path}.${data.thumbnail.extension}`}
+              src={`${data.thumbnail.path}.${data.thumbnail.extension}`}
             />
           </ImgBox>
         </ImgContainer>
         <Title
           ref={titleRef}
-          className={isScrolled ? "bgDark" : ""}
+          className={isTitleSticky ? "bgDark" : ""}
         >
           {data.name}
         </Title>
